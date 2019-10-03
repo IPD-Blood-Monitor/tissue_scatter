@@ -27,8 +27,8 @@ namespace TissueScatter.Net.Coefficients
                 var cells = line.Split('\t');
 
                 waveLengths.Add(int.Parse(cells[0]));
-                absorptionBlood.Add(int.Parse(cells[1]));
-                absorptionOBlood.Add(int.Parse(cells[2]));
+                absorptionOBlood.Add(int.Parse(cells[1]));
+                absorptionBlood.Add(int.Parse(cells[2]));
             }
 
             if (waveLength < waveLengths.First() && waveLength > waveLengths.Last())
