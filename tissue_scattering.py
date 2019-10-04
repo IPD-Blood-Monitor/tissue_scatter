@@ -40,8 +40,8 @@ def obtainAbsorptionCoefficients(ld):
     # wavelengths are in nm
     data = np.loadtxt("BloodAbsorptionData.txt", skiprows = 17)
     ldSpec = data[:,0]
-    absBloodArray = data[:,1]
-    absOBloodArray = data[:,2]
+    absOBloodArray = data[:,1]
+    absBloodArray = data[:,2]
     absBlood = np.interp(ld, ldSpec, absBloodArray)
     absOBlood = np.interp(ld, ldSpec, absOBloodArray)
     return absBlood, absOBlood

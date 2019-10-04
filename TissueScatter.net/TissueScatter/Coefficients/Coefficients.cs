@@ -8,6 +8,10 @@ namespace TissueScatter.Net.Coefficients
 {
     public static class Coefficients
     {
+        private const double mgPerMol = 64500.0;
+
+        public static double MgPerMol => mgPerMol;
+
         /// <summary>
         /// Returns the absorption coefficients for a given wavelength from a tabulated file.
         /// Linear interpolation is used to obtain values between wavelengths in the file.
@@ -104,11 +108,19 @@ namespace TissueScatter.Net.Coefficients
         /// <param name="absorptionBlood"></param>
         /// <param name="absorptionOBlood"></param>
         /// <param name="concentrationBlood"></param>
-        /// <param name="ration"></param>
-        public static void CalculateAbsorptionCoefficients(double absorptionBlood, double absorptionOBlood,
-            double concentrationBlood, double ration)
+        /// <param name="ratio"></param>
+        public static double CalculateAbsorptionCoefficients(double absorptionBlood, double absorptionOBlood, double concentrationBlood, double ratio)
         {
+            var concentrationHbO2 = concentrationBlood * ratio; // mg/l of oxygenated hemoglobin
+            var concentrationHb = concentrationBlood * (1 - ratio); // mg/l of deoxygenated hemoglobin
 
+            // /cm absorption coefficient ((1/(cm.mol/l)*mg/l/mg = 1/cm)) oxygenated hemoglobin
+            var absorptionHbO2 = concentrationHbO2 * absorptionOBlood / MgPerMol;
+            // /cm absorption coefficient ((1/(cm.mol/l)*mg/l/mg = 1/cm)) deoxygenated hemoglobin
+            var absorptionHb = concentrationHb * absorptionBlood / MgPerMol;
+
+            // The 2 absorption values can be added together because of Beers law
+            return absorptionHbO2 + absorptionHb;
         }
     }
 

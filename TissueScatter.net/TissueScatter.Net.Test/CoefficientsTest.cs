@@ -36,6 +36,23 @@ namespace TissueScatter.Net.Test
         }
 
         [Fact]
+        public void AbsorptionCoefficientsNoInterpolationTest()
+        {
+            const uint wavelength = 600;
+
+            var validReturnData = new AbsorptionCoefficients
+            {
+                AbsorptionBlood = 14600,
+                AbsorptionOxygenatedBlood = 3200
+            };
+
+            var coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(wavelength);
+
+            Assert.Equal(validReturnData.AbsorptionBlood, coefficients.AbsorptionBlood);
+            Assert.Equal(validReturnData.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
+        }
+
+        [Fact]
         public void AbsorptionCoefficientsExtremesTest()
         {
             const uint testWavelength1 = 450;
@@ -105,6 +122,19 @@ namespace TissueScatter.Net.Test
             Assert.Equal(validReturnData2.MuSkin, coefficients.MuSkin);
             Assert.Equal(validReturnData2.MuBone, coefficients.MuBone);
             Assert.Equal(validReturnData2.MuMuscle, coefficients.MuMuscle);
+        }
+
+        [Fact]
+        public void CalculateAbsorptionCoefficientsTest()
+        {
+            var absorptionBlood = 3200;
+            var AbsorptionOxygenatedBlood = 316;
+            var concentrationBlood = 0.150;
+            var ratio = 0.9;
+            var coefficient = Coefficients.Coefficients.CalculateAbsorptionCoefficients(absorptionBlood, AbsorptionOxygenatedBlood, concentrationBlood, ratio);
+
+            const double excpectedValue = 0.001405581395348837;
+            Assert.Equal(excpectedValue, coefficient);
         }
     }
 }
