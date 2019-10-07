@@ -105,6 +105,30 @@ namespace TissueScatter.Net.Photons
                 TraveledDistances = traveledDistances
             };
         }
+
+        //TODO I think this should actually be called AreWeNotDone (see github issue)
+        /// <summary>
+        /// Determine if the signal to noise ratio is good enough
+        /// </summary>
+        /// <param name="det1">Photons at detector 1</param>
+        /// <param name="det2">Photons at detector 2</param>
+        /// <returns></returns>
+        public static bool AreWeDone(int det1, int det2)
+        {
+            var threshold = 0.01;
+
+            if (det1 == 0 || det2 == 0)
+            {
+                return true;
+            }
+
+            if (Math.Sqrt(det1) / det1 > threshold || Math.Sqrt(det2) / det2 > threshold)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 
     public struct PhotonDetectorData

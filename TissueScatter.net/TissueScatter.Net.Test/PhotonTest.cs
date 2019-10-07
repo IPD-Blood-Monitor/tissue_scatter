@@ -154,5 +154,17 @@ namespace TissueScatter.Net.Test
         {
             //TODO determine if there can and should be a test for this, as it contains randomness
         }
+
+        [Fact]
+        public void AreWeDoneBasicTest()
+        {
+            int detector1 = 9999, detector2 = 9999;
+
+            Assert.True(Photons.Photons.AreWeDone(detector1, detector2));
+
+            detector1 = detector2 = 10000;
+
+            Assert.False(Photons.Photons.AreWeDone(detector1, detector2));
+        }
     }
 }
