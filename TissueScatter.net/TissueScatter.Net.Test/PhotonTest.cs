@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace TissueScatter.Net.Test
@@ -33,7 +32,7 @@ namespace TissueScatter.Net.Test
 
             var xyBound = 1.0;
             var zBound = 1.0;
-
+            
             var results = Photons.Photons.FilterPhotons(x, y, z, xyBound, zBound);
 
             Assert.DoesNotContain(1, results);

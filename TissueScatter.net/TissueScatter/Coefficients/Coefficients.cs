@@ -109,7 +109,7 @@ namespace TissueScatter.Net.Coefficients
         /// <param name="absorptionOBlood"></param>
         /// <param name="concentrationBlood"></param>
         /// <param name="ratio"></param>
-        public static double CalculateAbsorptionCoefficients(double absorptionBlood, double absorptionOBlood, double concentrationBlood, double ratio)
+        public static double CalculateAbsorptionCoefficient(double absorptionBlood, double absorptionOBlood, double concentrationBlood, double ratio)
         {
             var concentrationHbO2 = concentrationBlood * ratio; // mg/l of oxygenated hemoglobin
             var concentrationHb = concentrationBlood * (1 - ratio); // mg/l of deoxygenated hemoglobin
