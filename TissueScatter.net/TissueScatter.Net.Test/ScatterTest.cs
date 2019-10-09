@@ -7,7 +7,7 @@ namespace TissueScatter.Net.Test
 {
     public class ScatterTest
     {
-        [Fact]
+        [Fact(Skip = "Bad Test, needs changes")]
         public void ScatterBasicTest()
         {
             //Inputs
@@ -37,7 +37,7 @@ namespace TissueScatter.Net.Test
             Assert.Equal(averageLength2, data.LengthToD2);
         }
 
-        [Fact]
+        [Fact(Skip = "Test not finished")]
         public void ScatterCheckRationTest()
         {
             
