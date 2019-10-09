@@ -19,7 +19,7 @@ namespace TissueScatter.Net.Test
             var dMuscle = 1;
             var dBone = 3;
             var concentrationBlood = 0.150;
-            var ratoinOxygen = 0.9;
+            var ratioOxygen = 0.9;
 
             //Expected values
             var detectedPhotons1 = 25771000.0;
@@ -29,12 +29,18 @@ namespace TissueScatter.Net.Test
             var averageLength2 = 0.23217345351881793;
 
             var data = Scatter.Scatterlight(wavelength, distanceToDetector1, distanceToDetector2, width, dSkin, dMuscle,
-                dBone, concentrationBlood, ratoinOxygen);
+                dBone, concentrationBlood, ratioOxygen);
 
             Assert.Equal(detectedPhotons1, data.DetectedPhotons1);
             Assert.Equal(detectedPhotons2, data.DetectedPhotons2);
             Assert.Equal(averageLength1, data.LengthToD1);
             Assert.Equal(averageLength2, data.LengthToD2);
+        }
+
+        [Fact]
+        public void ScatterCheckRationTest()
+        {
+            
         }
     }
 }

@@ -97,6 +97,7 @@ namespace TissueScatter.Net
                 xPos = FilterOnIndexes(xPos, idsInModel);
                 yPos = FilterOnIndexes(yPos, idsInModel);
                 zPos = FilterOnIndexes(zPos, idsInModel);
+                distance = FilterOnIndexes(distance, idsInModel);
 
                 //xPos = xPos.Where(item => idsInModel.Contains(xPos.IndexOf(item))).ToList();
                 //yPos = yPos.Where(item => idsInModel.Contains(yPos.IndexOf(item))).ToList();
@@ -107,13 +108,37 @@ namespace TissueScatter.Net
                 amplitude = FilterOnIndexes(amplitude, idsInModel);
                 //amplitude = amplitude.Where(item => idsInModel.Contains(amplitude.IndexOf(item))).ToList();
 
-                var idxSkin = idsInModel.Where(index => zPos[index] <= dSkin).ToList(); //TODO veranderd dit zodat het niet meer gebruik maakt van idsInModel maar gewoon de index returnt van het item in de lijst waar de waarde voor geldt
+                //var idxSkin = idsInModel.Where(index => zPos[index] <= dSkin).ToList(); //TODO veranderd dit zodat het niet meer gebruik maakt van idsInModel maar gewoon de index returnt van het item in de lijst waar de waarde voor geldt
+                var idxSkin = new List<int>();
+                for (int i = 0; i < zPos.Count; i++)
+                {
+                    if (zPos[i] <= dSkin)
+                    {
+                        idxSkin.Add(i);
+                    }
+                }
                 var numInSkin = idxSkin.Count;
 
-                var idxmuscle = idsInModel.Where(index => zPos[index] <= dMuscle && zPos[index] > dSkin).ToList();
-                var numInMuscle = idxmuscle.Count;
+                //var idxmuscle = idsInModel.Where(index => zPos[index] <= dMuscle && zPos[index] > dSkin).ToList();
+                var idxMuscle = new List<int>();
+                for (int i = 0; i < zPos.Count; i++)
+                {
+                    if (zPos[i] <= dMuscle && zPos[i] > dSkin)
+                    {
+                        idxMuscle.Add(i);
+                    }
+                }
+                var numInMuscle = idxMuscle.Count;
 
-                var idxBone = idsInModel.Where(index => zPos[index] <= dBone && zPos[index] > dSkin + dMuscle).ToList();
+                //var idxBone = idsInModel.Where(index => zPos[index] <= dBone && zPos[index] > dSkin + dMuscle).ToList();
+                var idxBone = new List<int>();
+                for (int i = 0; i < zPos.Count; i++)
+                {
+                    if (zPos[i] <= dBone && zPos[i] > dSkin + dMuscle)
+                    {
+                        idxBone.Add(i);
+                    }
+                }
                 var numInBone = idxBone.Count;
 
                 // Determine the distance each photon travels using the right scattering coefficient
@@ -133,7 +158,7 @@ namespace TissueScatter.Net
 
                 if (numInMuscle > 0)
                 {
-                    var data = Photons.Photons.UpdatePositions(xPos, yPos, zPos, distance, idxmuscle, amplitude, numInMuscle,
+                    var data = Photons.Photons.UpdatePositions(xPos, yPos, zPos, distance, idxMuscle, amplitude, numInMuscle,
                         scatteringCoefficients.MuMuscle, absorptionCoefficient);
                     xPos = new List<double>(data.X);
                     yPos = new List<double>(data.Y);
