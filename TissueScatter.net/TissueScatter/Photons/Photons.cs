@@ -8,6 +8,15 @@ namespace TissueScatter.Net.Photons
 {
     public static class Photons
     {
+        /// <summary>
+        /// Filter out all phtons that are out of bounds
+        /// </summary>
+        /// <param name="x">List of x positions</param>
+        /// <param name="y">List of y positions</param>
+        /// <param name="z">List of z positions</param>
+        /// <param name="xyBound">XY bound that the photons should be in</param>
+        /// <param name="zBound">Z bound that the photons should be in</param>
+        /// <returns>A list of indexes of the photons that are in bounds</returns>
         public static List<int> FilterPhotons(List<double> x, List<double> y, List<double> z, double xyBound,
             double zBound)
         {
@@ -79,7 +88,7 @@ namespace TissueScatter.Net.Photons
         {
             var distances = RandomDistribution.Instance.ExponentialDistribution(1 / mu, numberOfPhotons);
 
-            for (int i = 0; i < traveledDistances.Count; i++)
+            for (int i = 0; i < photonIndexes.Count; i++)
             {
                 traveledDistances[photonIndexes[i]] += distances[i];
             }
@@ -87,7 +96,7 @@ namespace TissueScatter.Net.Photons
             var theta = RandomDistribution.Instance.UniformDistribution(-Math.PI / 2.0, Math.PI / 2.0, numberOfPhotons);
             var phi = RandomDistribution.Instance.UniformDistribution(0, 2.0 * Math.PI, numberOfPhotons);
 
-            for (int i = 0; i < traveledDistances.Count; i++)
+            for (int i = 0; i < distances.Count; i++)
             {
                 x[photonIndexes[i]] = distances[i] * Math.Cos(theta[i]) * Math.Cos(phi[i]);
                 y[photonIndexes[i]] = distances[i] * Math.Cos(theta[i]) * Math.Cos(phi[i]);
@@ -113,11 +122,11 @@ namespace TissueScatter.Net.Photons
         /// <param name="det1">Photons at detector 1</param>
         /// <param name="det2">Photons at detector 2</param>
         /// <returns></returns>
-        public static bool AreWeDone(int det1, int det2)
+        public static bool AreWeDone(double det1, double det2)
         {
             var threshold = 0.01;
 
-            if (det1 == 0 || det2 == 0)
+            if (det1 == 0.0 || det2 == 0.0)
             {
                 return true;
             }

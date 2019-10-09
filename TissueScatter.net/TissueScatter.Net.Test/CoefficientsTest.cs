@@ -131,7 +131,7 @@ namespace TissueScatter.Net.Test
             var AbsorptionOxygenatedBlood = 316;
             var concentrationBlood = 0.150;
             var ratio = 0.9;
-            var coefficient = Coefficients.Coefficients.CalculateAbsorptionCoefficients(absorptionBlood, AbsorptionOxygenatedBlood, concentrationBlood, ratio);
+            var coefficient = Coefficients.Coefficients.CalculateAbsorptionCoefficient(absorptionBlood, AbsorptionOxygenatedBlood, concentrationBlood, ratio);
 
             const double excpectedValue = 0.001405581395348837;
             Assert.Equal(excpectedValue, coefficient);

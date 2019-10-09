@@ -36,7 +36,9 @@ namespace TissueScatter.Net
 
             for (int i = 0; i < size; i++)
             {
-                uniformList.Add(_random.NextDouble());
+                var random = _random.NextDouble();
+                var mappedRandom = random * (high - low) + low;
+                uniformList.Add(mappedRandom);
             }
 
             return uniformList;
