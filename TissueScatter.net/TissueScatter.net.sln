@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Net.Test", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Functions", "TissueScatter.Functions\TissueScatter.Functions.csproj", "{16F96C68-3201-43A0-B910-55139A07FB99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TissueScatter.Core", "TissueScatter.Core\TissueScatter.Core.csproj", "{262245A3-51A7-49F9-8507-234C982142FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Core", "TissueScatter.Core\TissueScatter.Core.csproj", "{262245A3-51A7-49F9-8507-234C982142FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
