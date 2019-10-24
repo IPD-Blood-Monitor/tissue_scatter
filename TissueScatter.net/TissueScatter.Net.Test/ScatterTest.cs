@@ -1,4 +1,5 @@
 using System;
+using TissueScatter.Core;
 using Xunit;
 
 namespace TissueScatter.Net.Test

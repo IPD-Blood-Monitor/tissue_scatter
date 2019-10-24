@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace TissueScatter.Functions
 {
-    public static class Function1
+    public static class Function2
     {
-        [FunctionName("Function1")]
+        [FunctionName("Function2")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
