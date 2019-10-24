@@ -6,6 +6,13 @@ namespace TissueScatter.Core
 {
     public static class Scatter
     {
+        public static ScatterData Scatterlight(ScatterParameters parameters)
+        {
+            return Scatterlight(parameters.Wavelength, parameters.DistanceToDetector1, parameters.DistanceToDetector2,
+                parameters.Width, parameters.ThicknessSkin, parameters.ThicknessMuscle, parameters.ThicknessBone,
+                parameters.ConcentrationBlood, parameters.RatioOxygen);
+        }
+
         /// <summary>
         /// Calculates scattering through tissue for a specific wavelength
         /// </summary>
@@ -253,6 +260,19 @@ namespace TissueScatter.Core
 
             return newList;
         }
+    }
+
+    public struct ScatterParameters
+    {
+        public uint Wavelength;
+        public double DistanceToDetector1;
+        public double DistanceToDetector2;
+        public double Width;
+        public double ThicknessSkin;
+        public double ThicknessMuscle;
+        public double ThicknessBone;
+        public double ConcentrationBlood;
+        public double RatioOxygen;
     }
 
     public struct ScatterData
