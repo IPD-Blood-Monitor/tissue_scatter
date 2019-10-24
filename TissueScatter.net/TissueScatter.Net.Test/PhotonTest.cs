@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TissueScatter.Core.Photons;
 using Xunit;
 
 namespace TissueScatter.Net.Test
@@ -16,7 +17,7 @@ namespace TissueScatter.Net.Test
             var xyBound = 1.0;
             var zBound = 1.0;
 
-            var results = Photons.Photons.FilterPhotons(x, y, z, xyBound, zBound);
+            var results = Photons.FilterPhotons(x, y, z, xyBound, zBound);
 
             Assert.Contains(1, results);
             Assert.Contains(5, results);
@@ -33,7 +34,7 @@ namespace TissueScatter.Net.Test
             var xyBound = 1.0;
             var zBound = 1.0;
             
-            var results = Photons.Photons.FilterPhotons(x, y, z, xyBound, zBound);
+            var results = Photons.FilterPhotons(x, y, z, xyBound, zBound);
 
             Assert.DoesNotContain(1, results);
             Assert.Contains(5, results);
@@ -58,7 +59,7 @@ namespace TissueScatter.Net.Test
             var expectedAmplitude = 1.7;
             var expectedTraveledDistances = new List<double> { 2, 0.9 };
 
-            var detectorData = Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, detectorDistance, detectorWidth);
+            var detectorData = Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, detectorDistance, detectorWidth);
 
             Assert.Equal(expectedAmplitude, detectorData.TotalAmplitude);
             Assert.Equal(expectedTraveledDistances, detectorData.TraveledDistances);
@@ -74,7 +75,7 @@ namespace TissueScatter.Net.Test
             var amplitudes = new List<double> { 1, 2, 3 };
             var traveledDistances = new List<double> { 1, 2, 3 };
 
-            Assert.Throws<ArgumentException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
+            Assert.Throws<ArgumentException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
                 1));
 
             x = new List<double> { 1, 2, 3 };
@@ -84,7 +85,7 @@ namespace TissueScatter.Net.Test
             amplitudes = new List<double> { 1, 2, 3 };
             traveledDistances = new List<double> { 1, 2, 3 };
 
-            Assert.Throws<ArgumentException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
+            Assert.Throws<ArgumentException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
                 1));
 
             x = new List<double> { 1, 2, 3 };
@@ -94,7 +95,7 @@ namespace TissueScatter.Net.Test
             amplitudes = new List<double> { 1, 2, 3 };
             traveledDistances = new List<double> { 1, 2, 3 };
 
-            Assert.Throws<ArgumentException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
+            Assert.Throws<ArgumentException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
                 1));
 
             x = new List<double> { 1, 2, 3 };
@@ -104,7 +105,7 @@ namespace TissueScatter.Net.Test
             amplitudes = new List<double> { 1, 2, 3, 4 };
             traveledDistances = new List<double> { 1, 2, 3 };
 
-            Assert.Throws<ArgumentException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
+            Assert.Throws<ArgumentException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
                 1));
 
             x = new List<double> { 1, 2, 3 };
@@ -114,7 +115,7 @@ namespace TissueScatter.Net.Test
             amplitudes = new List<double> { 1, 2, 3 };
             traveledDistances = new List<double> { 1, 2, 3, 4 };
 
-            Assert.Throws<ArgumentException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
+            Assert.Throws<ArgumentException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances, amplitudes, 1,
                 1));
         }
 
@@ -132,19 +133,19 @@ namespace TissueScatter.Net.Test
             var detectorDistance = -1.0;
             var detectorWidth = 0.5;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances,
+            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances,
                 amplitudes, detectorDistance, detectorWidth));
 
             detectorDistance = 1.0;
             detectorWidth = -0.5;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances,
+            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances,
                 amplitudes, detectorDistance, detectorWidth));
 
             detectorDistance = -1.0;
             detectorWidth = -0.5;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.Photons.DetectorPhotons(x, y, z, traveledDistances,
+            Assert.Throws<ArgumentOutOfRangeException>(() => Photons.DetectorPhotons(x, y, z, traveledDistances,
                 amplitudes, detectorDistance, detectorWidth));
         }
 
@@ -159,11 +160,11 @@ namespace TissueScatter.Net.Test
         {
             int detector1 = 9999, detector2 = 9999;
 
-            Assert.True(Photons.Photons.AreWeDone(detector1, detector2));
+            Assert.True(Photons.AreWeDone(detector1, detector2));
 
             detector1 = detector2 = 10000;
 
-            Assert.False(Photons.Photons.AreWeDone(detector1, detector2));
+            Assert.False(Photons.AreWeDone(detector1, detector2));
         }
     }
 }

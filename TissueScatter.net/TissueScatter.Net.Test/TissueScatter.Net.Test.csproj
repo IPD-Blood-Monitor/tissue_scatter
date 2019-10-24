@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TissueScatter\TissueScatter.Net.csproj" />
+    <ProjectReference Include="..\TissueScatter.Core\TissueScatter.Core.csproj" />
   </ItemGroup>
 
 </Project>

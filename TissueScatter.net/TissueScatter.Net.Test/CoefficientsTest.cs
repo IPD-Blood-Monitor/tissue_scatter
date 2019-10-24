@@ -1,5 +1,5 @@
 ﻿using System;
-using TissueScatter.Net.Coefficients;
+using TissueScatter.Core.Coefficients;
 using Xunit;
 
 namespace TissueScatter.Net.Test
@@ -24,12 +24,12 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 1214
             };
 
-            var coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
+            var coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
 
             Assert.Equal(validReturnData1.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData1.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
 
-            coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
+            coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
 
             Assert.Equal(validReturnData2.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData2.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -46,7 +46,7 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 3200
             };
 
-            var coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(wavelength);
+            var coefficients = Coefficients.ObtainAbsorptionCoefficients(wavelength);
 
             Assert.Equal(validReturnData.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -70,12 +70,12 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 1052
             };
 
-            var coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
+            var coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
 
             Assert.Equal(validReturnData1.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData1.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
 
-            coefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
+            coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
 
             Assert.Equal(validReturnData2.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData2.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -87,8 +87,8 @@ namespace TissueScatter.Net.Test
             const uint tooLowWavelength = 449;
             const uint tooHighWavelength = 996;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => Coefficients.Coefficients.ObtainAbsorptionCoefficients(tooLowWavelength));
-            Assert.Throws<ArgumentOutOfRangeException>(() =>Coefficients.Coefficients.ObtainAbsorptionCoefficients(tooHighWavelength));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Coefficients.ObtainAbsorptionCoefficients(tooLowWavelength));
+            Assert.Throws<ArgumentOutOfRangeException>(() =>Coefficients.ObtainAbsorptionCoefficients(tooHighWavelength));
         }
 
         [Fact]
@@ -111,13 +111,13 @@ namespace TissueScatter.Net.Test
                 MuMuscle = 5.139623591212953
             };
 
-            var coefficients = Coefficients.Coefficients.ObtainScatteringCoefficients(testWavelength1);
+            var coefficients = Coefficients.ObtainScatteringCoefficients(testWavelength1);
 
             Assert.Equal(validReturnData1.MuSkin, coefficients.MuSkin);
             Assert.Equal(validReturnData1.MuBone, coefficients.MuBone);
             Assert.Equal(validReturnData1.MuMuscle, coefficients.MuMuscle);
 
-            coefficients = Coefficients.Coefficients.ObtainScatteringCoefficients(testWavelength2);
+            coefficients = Coefficients.ObtainScatteringCoefficients(testWavelength2);
 
             Assert.Equal(validReturnData2.MuSkin, coefficients.MuSkin);
             Assert.Equal(validReturnData2.MuBone, coefficients.MuBone);
@@ -131,7 +131,7 @@ namespace TissueScatter.Net.Test
             var AbsorptionOxygenatedBlood = 316;
             var concentrationBlood = 0.150;
             var ratio = 0.9;
-            var coefficient = Coefficients.Coefficients.CalculateAbsorptionCoefficient(absorptionBlood, AbsorptionOxygenatedBlood, concentrationBlood, ratio);
+            var coefficient = Coefficients.CalculateAbsorptionCoefficient(absorptionBlood, AbsorptionOxygenatedBlood, concentrationBlood, ratio);
 
             const double excpectedValue = 0.001405581395348837;
             Assert.Equal(excpectedValue, coefficient);
