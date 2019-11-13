@@ -23,7 +23,10 @@ namespace TissueScatter.Core.Coefficients
             var absorptionBlood = new List<int>();
             var absorptionOBlood = new List<int>();
 
-            var data = File.ReadAllLines("Resources/BloodAbsorptionData.txt").Skip(17);
+            var currentFolder = Directory.GetCurrentDirectory();
+            var filePath = $"Resources{Path.DirectorySeparatorChar}BloodAbsorptionData.txt";
+            var path = Path.GetFullPath(filePath);
+            var data = File.ReadAllLines(path).Skip(17);
 
             foreach (var line in data)
             {
