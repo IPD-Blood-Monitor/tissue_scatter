@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
 namespace TissueScatter.Core.Coefficients
 {
-    public static class Coefficients
+    public class Coefficients
     {
         private const double mgPerMol = 64500.0;
 
         public static double MgPerMol => mgPerMol;
+
+        public string resourceBasePath;
+
+        public Coefficients(string path)
+        {
+            resourceBasePath = path;
+        }
 
         /// <summary>
         /// Returns the absorption coefficients for a given wavelength from a tabulated file.
@@ -17,15 +25,14 @@ namespace TissueScatter.Core.Coefficients
         /// </summary>
         /// <param name="waveLength">The wavelength in nanometers</param>
         /// <returns></returns>
-        public static AbsorptionCoefficients ObtainAbsorptionCoefficients(uint waveLength)
+        public AbsorptionCoefficients ObtainAbsorptionCoefficients(uint waveLength)
         {
             var waveLengths = new List<int>();
             var absorptionBlood = new List<int>();
             var absorptionOBlood = new List<int>();
 
-            var currentFolder = Directory.GetCurrentDirectory();
-            var filePath = $"Resources{Path.DirectorySeparatorChar}BloodAbsorptionData.txt";
-            var path = Path.GetFullPath(filePath);
+            var path = Path.Combine(resourceBasePath, "Resources", "BloodAbsorptionData.txt");
+
             var data = File.ReadAllLines(path).Skip(17);
 
             foreach (var line in data)

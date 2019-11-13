@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace TissueScatter.Functions
         [FunctionName("ScatterParameters")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
             log.LogInformation("ScatterParameter called");
 
@@ -40,7 +41,7 @@ namespace TissueScatter.Functions
 
                 try
                 {
-                    var data = Scatter.Scatterlight(body);
+                    var data = Scatter.Scatterlight(body, context.FunctionAppDirectory);
                     return new OkObjectResult(data);
                 }
                 catch (Exception e)
@@ -54,7 +55,7 @@ namespace TissueScatter.Functions
                 try
                 {
                     var data = Scatter.Scatterlight(wavelength, distanceToDetector1, distanceToDetector2, width,
-                        thicknessSkin, thicknessMuscle, thicknessBone, concentrationBlood, ratio);
+                        thicknessSkin, thicknessMuscle, thicknessBone, concentrationBlood, ratio, context.FunctionAppDirectory);
                     return new OkObjectResult(data);
                 }
                 catch (Exception e)
