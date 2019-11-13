@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using TissueScatter.Core;
 using Xunit;
 
@@ -30,7 +31,7 @@ namespace TissueScatter.Net.Test
             var averageLength2 = 0.22765482292591624;
 
             var data = Scatter.Scatterlight(wavelength, distanceToDetector1, distanceToDetector2, width, dSkin, dMuscle,
-                dBone, concentrationBlood, ratioOxygen);
+                dBone, concentrationBlood, ratioOxygen, Directory.GetCurrentDirectory());
 
             var photonTolerance = 50000;
             var distanceTolerance = 0.01;

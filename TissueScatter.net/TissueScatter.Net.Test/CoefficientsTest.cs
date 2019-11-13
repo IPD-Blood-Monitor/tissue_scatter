@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using TissueScatter.Core.Coefficients;
 using Xunit;
 
@@ -6,6 +7,13 @@ namespace TissueScatter.Net.Test
 {
     public class CoefficientsTest
     {
+        private Coefficients coefficientsClass;
+
+        public CoefficientsTest()
+        {
+            coefficientsClass = new Coefficients(Directory.GetCurrentDirectory());
+        }
+
         [Fact]
         public void AbsorptionCoefficientsTest()
         {
@@ -24,12 +32,12 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 1214
             };
 
-            var coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
+            var coefficients = coefficientsClass.ObtainAbsorptionCoefficients(testWavelength1);
 
             Assert.Equal(validReturnData1.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData1.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
 
-            coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
+            coefficients = coefficientsClass.ObtainAbsorptionCoefficients(testWavelength2);
 
             Assert.Equal(validReturnData2.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData2.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -46,7 +54,7 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 3200
             };
 
-            var coefficients = Coefficients.ObtainAbsorptionCoefficients(wavelength);
+            var coefficients = coefficientsClass.ObtainAbsorptionCoefficients(wavelength);
 
             Assert.Equal(validReturnData.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -70,12 +78,12 @@ namespace TissueScatter.Net.Test
                 AbsorptionOxygenatedBlood = 1052
             };
 
-            var coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength1);
+            var coefficients = coefficientsClass.ObtainAbsorptionCoefficients(testWavelength1);
 
             Assert.Equal(validReturnData1.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData1.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
 
-            coefficients = Coefficients.ObtainAbsorptionCoefficients(testWavelength2);
+            coefficients = coefficientsClass.ObtainAbsorptionCoefficients(testWavelength2);
 
             Assert.Equal(validReturnData2.AbsorptionBlood, coefficients.AbsorptionBlood);
             Assert.Equal(validReturnData2.AbsorptionOxygenatedBlood, coefficients.AbsorptionOxygenatedBlood);
@@ -87,8 +95,8 @@ namespace TissueScatter.Net.Test
             const uint tooLowWavelength = 449;
             const uint tooHighWavelength = 996;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => Coefficients.ObtainAbsorptionCoefficients(tooLowWavelength));
-            Assert.Throws<ArgumentOutOfRangeException>(() =>Coefficients.ObtainAbsorptionCoefficients(tooHighWavelength));
+            Assert.Throws<ArgumentOutOfRangeException>(() => coefficientsClass.ObtainAbsorptionCoefficients(tooLowWavelength));
+            Assert.Throws<ArgumentOutOfRangeException>(() => coefficientsClass.ObtainAbsorptionCoefficients(tooHighWavelength));
         }
 
         [Fact]

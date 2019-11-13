@@ -6,11 +6,11 @@ namespace TissueScatter.Core
 {
     public static class Scatter
     {
-        public static ScatterData Scatterlight(ScatterParameters parameters)
+        public static ScatterData Scatterlight(ScatterParameters parameters, string resourceBasePath)
         {
             return Scatterlight(parameters.Wavelength, parameters.DistanceToDetector1, parameters.DistanceToDetector2,
                 parameters.Width, parameters.ThicknessSkin, parameters.ThicknessMuscle, parameters.ThicknessBone,
-                parameters.ConcentrationBlood, parameters.RatioOxygen);
+                parameters.ConcentrationBlood, parameters.RatioOxygen, resourceBasePath);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace TissueScatter.Core
         /// <param name="concentrationBlood">Concentration of hemoglobin ~150g/liter</param>
         /// <param name="ratioOxygen">Ration of oxygenated to deoxyganted hemoglobin (between 0 and 1)</param>
         public static ScatterData Scatterlight(uint wavelength, double distanceToDetector1, double distanceToDetector2,
-            double width, double dSkin, double dMuscle, double dBone, double concentrationBlood, double ratioOxygen)
+            double width, double dSkin, double dMuscle, double dBone, double concentrationBlood, double ratioOxygen, string resourceBasePath)
         {
             /*
              * We place the two detectors as a ring around the light source
@@ -39,8 +39,10 @@ namespace TissueScatter.Core
             xBound = yBound = 5.0 * distanceToDetector2;
             zBound = dSkin + dMuscle + dBone;
 
+            var coefficients = new Coefficients.Coefficients(resourceBasePath);
+
             var scatteringCoefficients = Coefficients.Coefficients.ObtainScatteringCoefficients(wavelength);
-            var absorptionCoefficients = Coefficients.Coefficients.ObtainAbsorptionCoefficients(wavelength);
+            var absorptionCoefficients = coefficients.ObtainAbsorptionCoefficients(wavelength);
 
             var absorptionCoefficient = Coefficients.Coefficients.CalculateAbsorptionCoefficient(absorptionCoefficients.AbsorptionBlood,
                 absorptionCoefficients.AbsorptionOxygenatedBlood, concentrationBlood, ratioOxygen);

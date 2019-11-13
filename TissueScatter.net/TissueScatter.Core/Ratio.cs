@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace TissueScatter.Core
 {
@@ -7,12 +8,13 @@ namespace TissueScatter.Core
     {
         static void Main(string[] args)
         {
-            var absorption = Coefficients.Coefficients.ObtainAbsorptionCoefficients(660);
+            var coefficients = new Coefficients.Coefficients(Directory.GetCurrentDirectory());
+            var absorption = coefficients.ObtainAbsorptionCoefficients(660);
             var scatteringCoefficients = Coefficients.Coefficients.ObtainScatteringCoefficients(660);
 
-            var data400 = Scatter.Scatterlight(450, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9);
-            var data660 = Scatter.Scatterlight(660, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9);
-            var data900 = Scatter.Scatterlight(900, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9);
+            var data400 = Scatter.Scatterlight(450, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9, Directory.GetCurrentDirectory());
+            var data660 = Scatter.Scatterlight(660, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9, Directory.GetCurrentDirectory());
+            var data900 = Scatter.Scatterlight(900, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.150, 0.9, Directory.GetCurrentDirectory());
 
             var datas = new List<ScatterData>
             {
@@ -27,6 +29,8 @@ namespace TissueScatter.Core
 
         private static double CalculateRatio(List<ScatterData> datas, List<int> waveLengths)
         {
+            var coefficients = new Coefficients.Coefficients(Directory.GetCurrentDirectory());
+
             var R11 = datas[0].DetectedPhotons1 / datas[0].DetectedPhotons2;
             var R22 = datas[1].DetectedPhotons1 / datas[1].DetectedPhotons2;
             var R33 = datas[2].DetectedPhotons1 / datas[2].DetectedPhotons2;
@@ -37,9 +41,9 @@ namespace TissueScatter.Core
             var alpha12 = Math.Log(R12);
             var alpha13 = Math.Log(R13);
 
-            var alpha1 = Coefficients.Coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[0]);
-            var alpha2 = Coefficients.Coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[1]);
-            var alpha3 = Coefficients.Coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[2]);
+            var alpha1 = coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[0]);
+            var alpha2 = coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[1]);
+            var alpha3 = coefficients.ObtainAbsorptionCoefficients((uint) waveLengths[2]);
 
             var alphaD1 = alpha1.AbsorptionBlood;
             var alphaD2 = alpha2.AbsorptionBlood;
