@@ -275,6 +275,28 @@ namespace TissueScatter.Core
         public double ThicknessBone;
         public double ConcentrationBlood;
         public double RatioOxygen;
+
+        public ScatterParameters(uint wavelength, double distanceToDetector1, double distanceToDetector2, double width, double thicknessSkin, double thicknessMuscle, double thicknessBone, double concentrationBlood, double ratioOxygen)
+        {
+            Wavelength = wavelength;
+            DistanceToDetector1 = distanceToDetector1;
+            DistanceToDetector2 = distanceToDetector2;
+            Width = width;
+            ThicknessSkin = thicknessSkin;
+            ThicknessMuscle = thicknessMuscle;
+            ThicknessBone = thicknessBone;
+            ConcentrationBlood = concentrationBlood;
+            RatioOxygen = ratioOxygen;
+        }
+
+        /// <summary>
+        /// Returns an example configuration for the parameters
+        /// </summary>
+        /// <returns></returns>
+        public static ScatterParameters GetExampleParameters()
+        {
+            return new ScatterParameters(660, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.15, 0.9);
+        }
     }
 
     public struct ScatterData
