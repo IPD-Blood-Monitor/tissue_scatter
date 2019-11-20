@@ -8,7 +8,7 @@ namespace TissueScatter.Core.Photons
     public static class Photons
     {
         /// <summary>
-        /// Filter out all phtons that are out of bounds
+        /// Filter out all photons that are out of bounds
         /// </summary>
         /// <param name="x">List of x positions</param>
         /// <param name="y">List of y positions</param>
