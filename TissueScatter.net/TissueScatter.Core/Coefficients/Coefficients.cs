@@ -24,7 +24,7 @@ namespace TissueScatter.Core.Coefficients
         /// Linear interpolation is used to obtain values between wavelengths in the file.
         /// </summary>
         /// <param name="waveLength">The wavelength in nanometers</param>
-        /// <returns></returns>
+        /// <returns>The absorption coefficients for the wavelength</returns>
         public AbsorptionCoefficients ObtainAbsorptionCoefficients(uint waveLength)
         {
             var waveLengths = new List<int>();
@@ -33,10 +33,12 @@ namespace TissueScatter.Core.Coefficients
 
             var path = Path.Combine(resourceBasePath, "Resources", "BloodAbsorptionData.txt");
 
-            var data = File.ReadAllLines(path).Skip(17);
+            var textFile = File.ReadAllLines(path).Skip(17);
 
-            foreach (var line in data)
+            foreach (var line in textFile)
             {
+                //The format of one line is the following:
+                //{wavelength}\t{absorptionOxygantedBlood}\t{absorptionBlood}
                 var cells = line.Split('\t');
 
                 waveLengths.Add(int.Parse(cells[0]));
@@ -75,6 +77,8 @@ namespace TissueScatter.Core.Coefficients
                 i++;
             }
 
+            //Factor is how where in between the 2 wavelengths our actual wavelength is
+            //So if it is exactly between the 2 values, the factor should be 0.5 for example
             var factor = (float)(waveLength - waveLengths[i - 1]) / (waveLengths[i] - waveLengths[i - 1]);
 
             long absBlood = (long)(absorptionBlood[i - 1] + ((absorptionBlood[i] - absorptionBlood[i - 1]) * factor));
