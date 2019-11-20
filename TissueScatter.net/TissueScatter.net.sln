@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Net.Test", "TissueScatter.Net.Test\TissueScatter.Net.Test.csproj", "{2711CEA3-B804-4132-96C2-B9A5B1C8DCFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Test", "TissueScatter.Net.Test\TissueScatter.Test.csproj", "{2711CEA3-B804-4132-96C2-B9A5B1C8DCFF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TissueScatter.Functions", "TissueScatter.Functions\TissueScatter.Functions.csproj", "{16F96C68-3201-43A0-B910-55139A07FB99}"
 EndProject
