@@ -295,7 +295,7 @@ namespace TissueScatter.Core
         /// <returns></returns>
         public static ScatterParameters GetExampleParameters()
         {
-            return new ScatterParameters(660, 0.1, 0.3, 0.05, 0.05, 1, 3, 0.15, 0.9);
+            return new ScatterParameters(660, 0.4, 0.65, 0.05, 0.05, 1, 3, 0.15, 0.9);
         }
     }
 
