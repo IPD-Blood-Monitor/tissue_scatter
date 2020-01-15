@@ -18,7 +18,7 @@ namespace TissueScatter.Matlab
              * 550-590
              * 750-850
              */
-            double ratioStart = 0;
+            double ratioStart = 0.7;
             double ratioEnd = 1;
             double ratioIncrease = 0.1;
 
@@ -31,23 +31,19 @@ namespace TissueScatter.Matlab
             var parameters = ScatterParameters.GetExampleParameters();
             List<uint> wavelengths = new List<uint>();
 
-            if (args.Length == 0)
+            if (args.Length == 0 || args[0] == "-sweep-parameters-better")
             {
-                Console.WriteLine("Enter the wavelength");
-                wavelengths.Add(Convert.ToUInt32(Console.ReadLine()));
-                parameters.Wavelength = wavelengths[0];
-                Console.WriteLine("Enter the ratio");
-                var ratioInput = Convert.ToDouble(Console.ReadLine());
-                ratioStart = ratioInput;
-                ratioEnd = ratioInput;
-                ratioIncrease = 100;
-                Console.WriteLine("Enter the concentration");
-                var concentrationInput = Convert.ToDouble(Console.ReadLine());
-                concentrationStart = concentrationInput;
-                concentrationStop = concentrationInput;
-                concentrationIncrement = 100;
+                //Set ratio and concentration variables
+                //Then call regular sweep-parameters
+                //ratioStart = 0.9;
+                //concentrationStart = 150;
+                if (args.Length == 0)
+                {
+                    args = new string[1];
+                }
+                args[0] = "-sweep-parameters";
             }
-            else if (args[0] == "-sweep-parameters")
+            if (args[0] == "-sweep-parameters")
             {
                 for (uint i = 450; i < 550; i += 10)
                 {
@@ -63,6 +59,22 @@ namespace TissueScatter.Matlab
                     wavelengths.Add(i);
                 }
             }
+            else if (args[0] == "-manual")
+            {
+                Console.WriteLine("Enter the wavelength");
+                wavelengths.Add(Convert.ToUInt32(Console.ReadLine()));
+                parameters.Wavelength = wavelengths[0];
+                Console.WriteLine("Enter the ratio");
+                var ratioInput = Convert.ToDouble(Console.ReadLine());
+                ratioStart = ratioInput;
+                ratioEnd = ratioInput;
+                ratioIncrease = 100;
+                Console.WriteLine("Enter the concentration");
+                var concentrationInput = Convert.ToDouble(Console.ReadLine());
+                concentrationStart = concentrationInput;
+                concentrationStop = concentrationInput;
+                concentrationIncrement = 100;
+            }
             else
             {
                 wavelengths.Add(uint.Parse(args[0]));
@@ -75,12 +87,43 @@ namespace TissueScatter.Matlab
             DateTime start = DateTime.Now;
             Console.WriteLine("Started at {0:G}", start);
 
-            for (int i = 0; i < wavelengths.Count; i++)
+            var infoPath = $"output_data/{start:yyyy-MM-dd--HH-mm-ss}/info.txt";
+            Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(infoPath)));
+            using (StreamWriter writer = new StreamWriter(infoPath))
+            {
+                if (args.Length > 0)
+                {
+                    writer.WriteLine($"Run using parameters: {args[0]}");
+                    writer.WriteLine($"Ratio start: {ratioStart}");
+                    writer.WriteLine($"Ratio end: {ratioEnd}");
+                    writer.WriteLine($"Ratio increment: {ratioIncrease}");
+
+                    writer.WriteLine($"Concentration start: {concentrationStart}");
+                    writer.WriteLine($"Concentration end: {concentrationStop}");
+                    writer.WriteLine($"Concentration increment: {concentrationIncrement}");
+
+                    writer.WriteLine($"Wavelengths:");
+                    foreach (var wavelength in wavelengths)
+                    {
+                        writer.WriteLine(wavelength);
+                    }
+                }
+                if(args[0] == "-manual")
+                {
+                    writer.WriteLine("Run using parameters: ");
+                    writer.WriteLine($"Wavelength: {wavelengths[0]}");
+                    writer.WriteLine($"Ratio: {ratioStart}");
+                    writer.WriteLine($"Concentration: {concentrationStart}");
+                }
+            }
+
+            for (int i = wavelengths.Count - 1; i >= 0; i--)
             {
                 uint wavelength = wavelengths[i];
-                for (ratio = ratioStart; ratio <= ratioEnd; ratio += ratioIncrease)
+                //for (ratio = ratioStart; ratio <= ratioEnd; ratio += ratioIncrease)
+                for (ratio = ratioEnd; ratio >= ratioStart; ratio -= ratioIncrease)
                 {
-                    for (double concentration = concentrationStart; concentration <= concentrationStop; concentration += concentrationIncrement)
+                    for (double concentration = concentrationStop; concentration >= concentrationStart; concentration -= concentrationIncrement)
                     {
                         var builder = new DataBuilder();
                         var detectedPhotons = builder.NewArray<double>(numOfSamples, 2);
@@ -98,7 +141,7 @@ namespace TissueScatter.Matlab
                         var variable = builder.NewVariable("detectedPhotons1", detectedPhotons);
                         var matFile = builder.NewFile(new[] { variable });
 
-                        var path = $"output_data/{wavelength}/{ratio}/{concentration}.mat";
+                        var path = $"output_data/{start:yyyy-MM-dd--HH-mm-ss}/{wavelength}/{ratio}/{concentration}.mat";
                         Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(path)));
                         using (var fileStream = new FileStream(path, FileMode.Create))
                         {
@@ -110,7 +153,7 @@ namespace TissueScatter.Matlab
                 DateTime tmpEnd = DateTime.Now;
                 TimeSpan tmpSpendTime = new TimeSpan(tmpEnd.Ticks - start.Ticks);
 
-                using (StreamWriter writer = new StreamWriter($"output_data/{wavelength}/time.txt"))
+                using (StreamWriter writer = new StreamWriter($"output_data/{start:yyyy-MM-dd--HH-mm-ss}/{wavelength}/time.txt"))
                 {
                     writer.WriteLine($"Time spend: {tmpSpendTime}");
                 }
@@ -121,8 +164,6 @@ namespace TissueScatter.Matlab
 
             Console.WriteLine("Stopped at {0:G}", end);
             Console.WriteLine($"Time spend: {spendTime}");
-
-            Console.ReadKey();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TissueScatter.Core
     {
         public static ScatterData Scatterlight(ScatterParameters parameters)
         {
-            return Scatterlight(parameters, Directory.GetCurrentDirectory());
+            return Scatterlight(parameters, System.AppContext.BaseDirectory);
         }
 
         public static ScatterData Scatterlight(ScatterParameters parameters, string resourceBasePath)
