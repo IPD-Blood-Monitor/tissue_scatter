@@ -119,7 +119,10 @@ namespace TissueScatter.Matlab
 
             for (int i = wavelengths.Count - 1; i >= 0; i--)
             {
+                Console.WriteLine();
                 uint wavelength = wavelengths[i];
+                Console.WriteLine($"Wavelength: {wavelength}");
+                Console.WriteLine($"Run {wavelengths.Count - i} of {wavelengths.Count}");
                 //for (ratio = ratioStart; ratio <= ratioEnd; ratio += ratioIncrease)
                 for (ratio = ratioEnd; ratio >= ratioStart; ratio -= ratioIncrease)
                 {
@@ -136,6 +139,7 @@ namespace TissueScatter.Matlab
                             var data = Scatter.Scatterlight(parameters);
                             detectedPhotons[n, 0] = data.DetectedPhotons1;
                             detectedPhotons[n, 1] = data.DetectedPhotons2;
+                            Console.Write(".");
                         }
 
                         var variable = builder.NewVariable("detectedPhotons1", detectedPhotons);
@@ -164,6 +168,9 @@ namespace TissueScatter.Matlab
 
             Console.WriteLine("Stopped at {0:G}", end);
             Console.WriteLine($"Time spend: {spendTime}");
+            Console.WriteLine("Done");
+            Console.WriteLine("Press any key to close...");
+            Console.ReadKey();
         }
     }
 }
